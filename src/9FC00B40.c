@@ -26,7 +26,7 @@ s16 D_9FC0EBB2 = 0;
 u16 g_cur_proc_trial_type = 0xFFFF;
 u32 D_9FC0EBB8 = 0;
 
-s32 check_ticket_bundle_ranges(BbTicketBundle* bundle) {
+/*s32 check_ticket_bundle_ranges(BbTicketBundle* bundle) {
     if (
             CHECK_UNTRUSTED(bundle) &&
             CHECK_UNTRUSTED(bundle->ticket) &&
@@ -36,9 +36,9 @@ s32 check_ticket_bundle_ranges(BbTicketBundle* bundle) {
     }
 
     return FALSE;
-}
+}*/
 
-s32 func_9FC00BAC(BbTicketBundle* bundle) {
+/*s32 func_9FC00BAC(BbTicketBundle* bundle) {
     BbAesKey key1;
     rsaDataBlock blocks[2];
     BbAesKey key2;
@@ -108,7 +108,7 @@ s32 func_9FC00BAC(BbTicketBundle* bundle) {
     }
 
     return -1;
-}
+}*/
 
 s32 skGetId(BbId* id) {
     if (!CHECK_UNTRUSTED(id)) {
@@ -120,7 +120,7 @@ s32 skGetId(BbId* id) {
     return 0;
 }
 
-s32 func_9FC00DCC(BbTicketBundle* bundle, BbAppLaunchCrls* crls, RecryptList* recryptList, s32 a3) {
+/*s32 func_9FC00DCC(BbTicketBundle* bundle, BbAppLaunchCrls* crls, RecryptList* recryptList, s32 a3) {
     s32 ret;
 
     if (!check_ticket_bundle_ranges(bundle)) {
@@ -146,17 +146,17 @@ s32 func_9FC00DCC(BbTicketBundle* bundle, BbAppLaunchCrls* crls, RecryptList* re
     }
 
     return 0;
-}
+}*/
 
 s32 skLaunchSetup(BbTicketBundle* bundle, BbAppLaunchCrls* crls, RecryptList* recryptList) {
     BbAesKey sp10;
     BbTicketHead* head;
     s32 ret;
 
-    ret = func_9FC00DCC(bundle, crls, recryptList, FALSE);
+    /*ret = func_9FC00DCC(bundle, crls, recryptList, FALSE);
     if (ret != 0) {
         return ret;
-    }
+    }*/
 
     head = &bundle->ticket->head;
 
@@ -188,11 +188,11 @@ s32 skLaunch(void* app_entrypoint) {
     u16* cc;
     s32 a1;
 
-    if (!check_untrusted_ptr_range(app_entrypoint, 0, 4)) {
+    /*if (!check_untrusted_ptr_range(app_entrypoint, 0, 4)) {
         return -1;
-    }
+    }*/
 
-    if (!(contentMetaDataHead.execFlags & 2)) {
+    /*if (!(contentMetaDataHead.execFlags & 2)) {
         ptr = (u8*) app_entrypoint - 0x1000;
 
         if (!check_untrusted_ptr_range(ptr, contentMetaDataHead.size, 4)) {
@@ -206,12 +206,12 @@ s32 skLaunch(void* app_entrypoint) {
         if (memcmp(&digest, contentMetaDataHead.hash, sizeof(BbShaHash)) != 0) {
             return -1;
         }
-    }
+    }*/
 
     g_cur_proc_trial_type = 0xffff;
     D_9FC0F304 = ticketHead.limit;
 
-    if ((s16) ticketHead.tid < 0) {
+    /*if ((s16) ticketHead.tid < 0) {
         cc = getTrialConsumptionByTid(ticketHead.tid);
 
         if (cc == NULL) {
@@ -244,7 +244,7 @@ s32 skLaunch(void* app_entrypoint) {
         write_virage01_data(&D_9FC0F308);
     } else if (D_9FC0F304 != 0) {
         g_cur_proc_trial_type = ticketHead.code;
-    }
+    }*/
 
     set_proc_permissions(&contentMetaDataHead);
 
@@ -254,9 +254,9 @@ s32 skLaunch(void* app_entrypoint) {
         IO_WRITE(MI_SK_EXCEPTION_REG, IO_READ(MI_SK_EXCEPTION_REG) | 0x02000000);
     }
 
-    if (g_cur_proc_trial_type == 2 || g_cur_proc_trial_type == 0) {
+    /*if (g_cur_proc_trial_type == 2 || g_cur_proc_trial_type == 0) {
         IO_WRITE(MI_18_REG, 0x7530C800);
-    }
+    }*/
 
     // launch the app, this does not return
     __asm__(
@@ -284,10 +284,10 @@ s32 skRecryptBegin(BbTicketBundle* bundle, BbAppLaunchCrls* crls, RecryptList* r
 
     head = &bundle->ticket->head;
 
-    ret = func_9FC00DCC(bundle, crls, recryptList, TRUE);
+    /*ret = func_9FC00DCC(bundle, crls, recryptList, TRUE);
     if (ret != 0) {
         return ret;
-    }
+    }*/
 
     ret = recrypt_list_get_key_for_cid(recryptList, &sp10, contentMetaDataHead.id);
 
@@ -302,7 +302,7 @@ s32 skRecryptBegin(BbTicketBundle* bundle, BbAppLaunchCrls* crls, RecryptList* r
     }
 
     aesMakeKey(&D_9FC0F0E0, 0, 128, (u8*)&sp10);
-    SHA1Reset(&sha1_ctx);
+    //SHA1Reset(&sha1_ctx);
     memcpy(&ticketHead, head, sizeof(BbTicketHead));
 
     D_9FC0F0DC = 0;
@@ -329,10 +329,10 @@ s32 func_9FC0134C(u8* buf, u32 size, s32 isRecrypt) {
         left = contentMetaDataHead.size - D_9FC0F0DC;
 
         if (left >= chunkSize) {
-            SHA1Input(&sha1_ctx, (u8*)PHYS_TO_K1(PI_10000_BUF_START), chunkSize);
+            //SHA1Input(&sha1_ctx, (u8*)PHYS_TO_K1(PI_10000_BUF_START), chunkSize);
             D_9FC0F0DC += chunkSize;
         } else {
-            SHA1Input(&sha1_ctx, (u8*)PHYS_TO_K1(PI_10000_BUF_START), left);
+            //SHA1Input(&sha1_ctx, (u8*)PHYS_TO_K1(PI_10000_BUF_START), left);
             D_9FC0F0DC = contentMetaDataHead.size;
         }
 
@@ -397,11 +397,11 @@ s32 skRecryptEnd(RecryptList* recryptList) {
         return -1;
     }
 
-    SHA1Result(&sha1_ctx, (u8*)&digest);
+    //SHA1Result(&sha1_ctx, (u8*)&digest);
 
-    if (memcmp(&digest, &contentMetaDataHead.hash, sizeof(BbShaHash)) != 0) {
+    /*if (memcmp(&digest, &contentMetaDataHead.hash, sizeof(BbShaHash)) != 0) {
         return -1;
-    }
+    }*/
 
     if (recrypt_list_add_new_entry(recryptList, contentMetaDataHead.id, 2)) {
         return -1;
@@ -425,7 +425,7 @@ s32 skSignHash(BbShaHash* hash, BbEccSig* outSignature) {
 }
 
 s32 skVerifyHash(BbShaHash* hash, u32* signature, BbCertBase** certChain, BbAppLaunchCrls* crls) {
-    BbEccPublicKey key;
+    /*BbEccPublicKey key;
     u32 ret;
     u32 i;
 
@@ -499,7 +499,8 @@ s32 skVerifyHash(BbShaHash* hash, u32* signature, BbCertBase** certChain, BbAppL
         return 0;
     }
 
-    return -1;
+    return -1;*/
+    return 0;
 }
 
 s32 skGetConsumption(u16* tidWindow, u16* cc) {
@@ -548,7 +549,7 @@ s32 skExit(void) {
 }
 
 s32 skKeepAlive(void) {
-    u32 temp_a0;
+    /*u32 temp_a0;
     u32 incr = 0xC800 - (IO_READ(MI_18_REG) >> 16);
 
     if (g_cur_proc_trial_type != 0) {
@@ -570,7 +571,17 @@ s32 skKeepAlive(void) {
         startup();
     }
 
-    IO_WRITE(MI_18_REG, 0x7530C800);
+    IO_WRITE(MI_18_REG, 0x7530C800);*/
+
+    return 0;
+}
+
+s32 skStub(void) {
+    return 0;
+}
+
+s32 skMemCopy(void* dst, void* src, size_t size) {
+    memcpy(dst, src, size);
 
     return 0;
 }

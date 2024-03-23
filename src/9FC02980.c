@@ -21,7 +21,7 @@ s32 get_expected_revocation_list_version(u32 type, u32* versionOut) {
 }
 
 s32 check_crl_root(BbCrlHead* crlHead, u32 expectedType) {
-    if (crlHead->type != expectedType) {
+    /*if (crlHead->type != expectedType) {
         return -1;
     }
 
@@ -43,13 +43,13 @@ s32 check_crl_root(BbCrlHead* crlHead, u32 expectedType) {
             break;
         default:
             return -1;
-    }
+    }*/
 
     return 0;
 }
 
 s32 check_crlbundle_version(BbCrlBundle* crlBundle) {
-    BbCrlHead* crlHead = crlBundle->head;
+    /*BbCrlHead* crlHead = crlBundle->head;
 
     switch (crlHead->type) {
         case 0:
@@ -80,13 +80,13 @@ s32 check_crlbundle_version(BbCrlBundle* crlBundle) {
 
     if (write_virage01_data(&D_9FC0F308) != 0) {
         return -1;
-    }
+    }*/
     
     return 0;
 }
 
 s32 verify_crlbundle(BbCrlBundle* bundle, u32 type, u32 requiredVersion) {
-    rsaDataBlock dataBlocks[2];
+    /*rsaDataBlock dataBlocks[2];
     u32 expectedVersion;
     s32 t;
     s32 ret;
@@ -156,13 +156,14 @@ s32 verify_crlbundle(BbCrlBundle* bundle, u32 type, u32 requiredVersion) {
         ret = check_crlbundle_version(bundle);
     }
 
-    return ret;
+    return ret;*/
+    return 0;
 }
 
 s32 verify_all_crlbundles(BbCrlBundle* carl, s32 requiredCarlVersion,
                           BbCrlBundle* cprl, s32 requiredCprlVersion,
                           BbCrlBundle* tsrl, s32 requiredTsrlVersion) {
-    u32 i;
+    /*u32 i;
 
     if (verify_crlbundle(carl, 2, requiredCarlVersion) != 0) {
         return -3;
@@ -186,13 +187,13 @@ s32 verify_all_crlbundles(BbCrlBundle* carl, s32 requiredCarlVersion,
 
     if((requiredTsrlVersion >= 0) && (verify_crlbundle(tsrl, 0, requiredTsrlVersion) != 0)) {
         return -2;
-    }
+    }*/
 
     return 0;
 }
 
 s32 check_ticket_bundle_revocations(BbTicketBundle* ticketBundle, BbAppLaunchCrls* crls) {
-    s32 ret;
+    /*s32 ret;
     u32 i;
 
     if (check_crlbundle_ranges(crls) == 0) {
@@ -233,14 +234,14 @@ s32 check_ticket_bundle_revocations(BbTicketBundle* ticketBundle, BbAppLaunchCrl
                 return -9;
             }
         }
-    }
+    }*/
 
     return 0;
 }
 
 s32 check_certs_against_revocation_list(BbContentMetaDataHead* cmdHead, BbCertBase** chain,
                                         BbAppLaunchCrls* appLaunchCrls) {
-    s32 ret;
+    /*s32 ret;
     u32 i;
 
     if (appLaunchCrls->carl.head != NULL) {
@@ -294,13 +295,13 @@ s32 check_certs_against_revocation_list(BbContentMetaDataHead* cmdHead, BbCertBa
                 return -9;
             }
         }
-    }
+    }*/
 
     return 0;
 }
 
 s32 check_crlbundle_ranges(BbAppLaunchCrls* launchCrls) { // TODO: rename check_applaunch_crl_ranges
-    u32 i = 0;
+    /*u32 i = 0;
     BbCrlBundle* bundle;
 
     for (i = 0, bundle = &launchCrls->tsrl; i < 3; i++, bundle++) {
@@ -317,7 +318,7 @@ s32 check_crlbundle_ranges(BbAppLaunchCrls* launchCrls) { // TODO: rename check_
                 return 0;
             }
         }
-    }
+    }*/
 
     return 1;
 }

@@ -43,7 +43,7 @@ void set_proc_permissions(BbContentMetaDataHead* cmdHead) {
 
 s32 rsa_verify_signature(rsaDataBlock* dataBlocks, s32 numDataBlocks, const u32* certpublickey,
                           const u32 certexponent, RsaSize rsaSize, u32* certsign) {
-    u8 digest[0x14];
+    /*u8 digest[0x14];
     SHA1Context sha1ctx;
     s32 i;
 
@@ -54,12 +54,13 @@ s32 rsa_verify_signature(rsaDataBlock* dataBlocks, s32 numDataBlocks, const u32*
         }
     }
     SHA1Result(&sha1ctx, digest);
-    return rsa_check_signature(digest, certpublickey, certexponent, rsaSize, certsign);
+    return rsa_check_signature(digest, certpublickey, certexponent, rsaSize, certsign);*/
+    return 0;
 }
 
 s32 rsa_check_signature(u8* digest, const u32* certpublickey, const u32 certexponent, RsaSize rsaSize,
                         u32* certsign) {
-    char result[512];
+    /*char result[512];
     s32 rsaBits;
     u32 rsaBytes;
 
@@ -80,7 +81,8 @@ s32 rsa_check_signature(u8* digest, const u32* certpublickey, const u32 certexpo
         return 0;
     }
 
-    return -1;
+    return -1;*/
+    return 0;
 }
 
 s32 func_9FC03410(u32* randomOut, s32 nWords) {
@@ -160,11 +162,12 @@ void func_9FC03694(u8* data, u32 datasize, u32* private_key, BbEccSig* signature
 }
 
 s32 verify_ecc_signature(u8* data, u32 datasize, u32* public_key, u32* signature, u32 identity) {
-    BSL_boolean res;
+    /*BSL_boolean res;
 
     bsl_verify_ecc_sig(data, datasize, public_key, signature, &res, identity);
 
-    return (res == BSL_TRUE) ? 0 : -1;
+    return (res == BSL_TRUE) ? 0 : -1;*/
+    return 0;
 }
 
 s32 func_9FC0374C(void) {
@@ -451,21 +454,23 @@ u16 *getTrialConsumptionByTid(BbTicketId tid) {
 }
 
 s32 check_untrusted_ptr_range(void* pointer, u32 size, u32 alignment) {
-    u32 ptr = (u32)pointer;
+    /*u32 ptr = (u32)pointer;
     return ((ptr - 0x80000000) <= 0x800000) &        // pointer is within DRAM bounds
            ((ptr + size - 0x80000000) <= 0x800000) & // end pointer is within DRAM bounds
-           ((ptr & (alignment - 1)) == 0);           // pointer is aligned
+           ((ptr & (alignment - 1)) == 0);           // pointer is aligned*/
+    return 1;
 }
 
 s32 check_unknown_range(void* pointer, u32 size, u32 alignment) {
-    u32 ptr = (u32)pointer;
+    /*u32 ptr = (u32)pointer;
     return ((ptr - 0x9FC40000) <= 0x4000) &        // pointer is within SKRAM bounds
            ((ptr + size - 0x9FC40000) <= 0x4000) & // end pointer is within SKRAM bounds
-           ((ptr & (alignment - 1)) == 0);         // pointer is aligned
+           ((ptr & (alignment - 1)) == 0);         // pointer is aligned*/
+    return 1;
 }
 
 s32 check_cert_ranges(BbCertBase** arg0) {
-    if (!CHECK_UNTRUSTED(arg0)) {
+    /*if (!CHECK_UNTRUSTED(arg0)) {
         return FALSE;
     }
 
@@ -486,5 +491,6 @@ s32 check_cert_ranges(BbCertBase** arg0) {
         }
     }
 
-    return FALSE;
+    return FALSE;*/
+    return TRUE;
 }

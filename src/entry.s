@@ -20,6 +20,13 @@ DATA(skc_table)
     .word skSetLimit
     .word skExit
     .word skKeepAlive
+    .word skStub
+    .word skStub
+    .word skStub
+    .word skStub
+    .word skStub
+    .word skStub
+    .word skMemCopy
 ENDDATA(skc_table)
 skc_table_end:
 
@@ -228,23 +235,24 @@ LEAF(skc_handler)
     or      sp, K0BASE
 
     // load the number of valid SKCs
-    la      t2, skc_table_size
-    lw      t3, (t2)
+    //la      t2, skc_table_size
+    //lw      t3, (t2)
 
     // BUG: eSKape, this should have been an unsigned comparison e.g. bgeu
-    bge     v0, t3, .bad_skc_num
+    //bge     v0, t3, .bad_skc_num
 
     // check if this SKC is allowed to be called by the current process
-    la      t2, cur_proc_allowed_skc_bitmask
-    lw      t3, (t2)
-    addiu   t2, zero, 1
-    sllv    t2, t2, v0
-    and     t3, t3, t2
-    bgtz    t3, .call_skc
-.bad_skc_num:
-    addiu   v0, zero, -11
-    nop
-    j           1f
+    //la      t2, cur_proc_allowed_skc_bitmask
+    //lw      t3, (t2)
+    //addiu   t2, zero, 1
+    //sllv    t2, t2, v0
+    //and     t3, t3, t2
+    //bgtz    t3, .call_skc
+    //b .call_skc
+//.bad_skc_num:
+    //addiu   v0, zero, -11
+    //nop
+    //j           1f
 .call_skc:
     // load the function pointer and call it
     sll     t0, v0, 2

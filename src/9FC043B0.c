@@ -4,13 +4,13 @@
 #include "macros.h"
 
 s32 recrypt_list_verify_ecc_sig(RecryptList* list) {
-    BbEccPublicKey publicKey;
+    /*BbEccPublicKey publicKey;
     u32 size = list->numEntries * sizeof(RecryptListEntry) + 4;
 
     virage2_gen_public_key(publicKey);
     if (verify_ecc_signature((u8*)&list->numEntries, size, publicKey, list->signature, 0x06091968) != 0) {
         return -1;
-    }
+    }*/
 
     return 0;
 }
@@ -65,7 +65,8 @@ s32 recrypt_list_get_entry_for_cid(RecryptList* list, BbContentId contentId, Rec
 
 s32 recrypt_list_verify_size_and_sig(RecryptList* list) {
     if ((s32)(list->numEntries * sizeof(RecryptListEntry) + 0x44) < 0x4000) { // TODO: offsetof?
-    	return recrypt_list_verify_ecc_sig(list);
+    	//return recrypt_list_verify_ecc_sig(list);
+        return 0;
     }
 
     return -1;

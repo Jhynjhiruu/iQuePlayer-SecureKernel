@@ -127,7 +127,7 @@ s32 verify_system_app(s32* blockPtr) {
         }
     }
 
-    certChain[0] = (BbRsaCert*)(cmd + 1);
+    /*certChain[0] = (BbRsaCert*)(cmd + 1);
     certChain[1] = (BbRsaCert*)(certChain[0] + 1);
     certChain[2] = NULL;
 
@@ -161,16 +161,16 @@ s32 verify_system_app(s32* blockPtr) {
 
     if (rsa_verify_signature(&rsa, 1, (void*)&certChain[0]->publicKey, certChain[0]->exponent, RSA_2048, cmd->contentMetaDataSign) < 0) {
         return -1;
-    }
+    }*/
     if (aes_SwDecrypt((u8*)&virage2_offset->bootAppKey, (u8*)cmd->commonCmdIv, (u8*)cmd->key, sizeof(cmd->key), (u8*)&decryptedKey) < 0) {
         return -1;
     }
 
     memcpy(cmd->key, &decryptedKey, sizeof(cmd->key));
 
-    if (cmd->bbid != 0 && cmd->bbid != virage2_offset->bbId) {
+    /*if (cmd->bbid != 0 && cmd->bbid != virage2_offset->bbId) {
         return -1;
-    }
+    }*/
     return 0;
 }
 
@@ -203,7 +203,7 @@ s32 func_9FC01FBC(s32 block, s32 bufSelect, s32 continuation, void** outBufPtr, 
     if (ret < 0) {
         return ret;
     }
-    SHA1Input(sha1ctx, (void*)PHYS_TO_K0(*outBufPtr), length);
+    //SHA1Input(sha1ctx, (void*)PHYS_TO_K0(*outBufPtr), length);
     return 0;
 }
 
@@ -230,7 +230,7 @@ s32 load_system_app(u32* systemAppEntrypointOut) {
     endBlock = (cmd->size + 0x200) / 0x200;
 
     aes_cbc_set_key_iv(&cmd->key, &cmd->iv);
-    SHA1Reset(&sha1ctx);
+    //SHA1Reset(&sha1ctx);
 
     aesContinuation = FALSE;
     length = 0x200;
@@ -269,10 +269,10 @@ s32 load_system_app(u32* systemAppEntrypointOut) {
         bufPtr += 0x200;
     }
 
-    SHA1Result(&sha1ctx, (u8*)&systemAppHash);
-    if (memcmp(&systemAppHash, cmd->hash, sizeof(systemAppHash)) != 0) {
+    //SHA1Result(&sha1ctx, (u8*)&systemAppHash);
+    /*if (memcmp(&systemAppHash, cmd->hash, sizeof(systemAppHash)) != 0) {
         return -1;
-    }
+    }*/
     set_proc_permissions(cmd);
     return ret;
 }
@@ -378,7 +378,7 @@ s32 func_9FC02488(BbShaHash* skHashOut) {
 }
 
 s32 write_virage2(void) {
-    BbShaHash skHash;
+    /*BbShaHash skHash;
     u32 checksum;
     s32 ret;
     u32 i;
@@ -411,14 +411,15 @@ s32 write_virage2(void) {
     if (ret >= 0) {
         ret = 0;
     }
-    return ret;
+    return ret;*/
+    return 0;
 }
 
 extern u32 D_9FC0F304;
 extern u32 g_trial_time_elapsed;
 
 s32 check_trial_timer(void) {
-    u32 temp_s0;
+    /*u32 temp_s0;
 
     g_trial_time_elapsed++;
     temp_s0 = g_trial_time_elapsed * 16;
@@ -429,6 +430,6 @@ s32 check_trial_timer(void) {
     if (temp_s0 >= D_9FC0F304 * 60) {
         startup();
     }
-    IO_WRITE(MI_18_REG, 0x7530C800);
+    IO_WRITE(MI_18_REG, 0x7530C800);*/
     return 0;
 }

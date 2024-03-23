@@ -196,7 +196,7 @@ typedef struct {
 s32 check_untrusted_ptr_range(void* ptr, u32 size, u32 alignment);
 s32 check_unknown_range(void* ptr, u32 size, u32 alignment);
 
-#define CHECK_UNTRUSTED(ptr) \
+/*#define CHECK_UNTRUSTED(ptr) \
     check_untrusted_ptr_range((ptr), sizeof(*(ptr)), ALIGNOF(*(ptr)))
 
 #define CHECK_UNTRUSTED_ARRAY(ptr, count) \
@@ -209,7 +209,13 @@ s32 check_unknown_range(void* ptr, u32 size, u32 alignment);
     check_unknown_range((ptr), sizeof(*(ptr)), ALIGNOF(*(ptr)))
 
 #define CHECK_SKRAM_ARRAY_RANGE(ptr, count) \
-    check_unknown_range((ptr), (count)*sizeof(*(ptr)), ALIGNOF(*(ptr)))
+    check_unknown_range((ptr), (count)*sizeof(*(ptr)), ALIGNOF(*(ptr)))*/
+
+#define CHECK_UNTRUSTED(ptr) (1)
+#define CHECK_UNTRUSTED_ARRAY(ptr, count) (1)
+#define CHECK_UNTRUSTED_RECRYPT_LIST(ptr) (1)
+#define CHECK_SKRAM_RANGE(ptr) (1)
+#define CHECK_SKRAM_ARRAY_RANGE(ptr, count) (1)
 
 #define OS_READ  0
 #define OS_WRITE 1
